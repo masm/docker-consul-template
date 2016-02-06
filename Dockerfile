@@ -1,8 +1,10 @@
 FROM masm/archlinux
 MAINTAINER Marco Monteiro <marco@neniu.org>
 
-ENTRYPOINT ["/bin/consul-template"]
+ENTRYPOINT ["/usr/bin/consul-template"]
 
-RUN curl -sSL https://github.com/hashicorp/consul-template/releases/download/v0.9.0/consul-template_0.9.0_linux_amd64.tar.gz | tar -xvzC /tmp && \
-    mv /tmp/consul-template_0.9.0_linux_amd64/consul-template /bin/consul-template && \
-    rm -rf /tmp/consul-template_0.9.0_linux_amd64
+RUN pacman -S unzip --needed --noconfirm --noprogressbar
+RUN curl -sSL https://releases.hashicorp.com/consul-template/0.12.2/consul-template_0.12.2_linux_amd64.zip > /tmp/consul.zip && \
+    unzip /tmp/consul.zip -d /tmp && \
+    mv /tmp/consul-template /usr/bin/consul-template && \
+    rm -f /tmp/consul.zip
